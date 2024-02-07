@@ -74,7 +74,17 @@ export default {
             }
         }
     },
+    created(){ // 기본 세팅을 할 때도 created 훅을 사용함
+        this.userInfo.join_date = this.getToday();
+    },
     methods : {
+        getToday() {
+            let date = new Date();
+            let year = date.getFullYear();
+            let month = ('0' + (date.getMonth() + 1)).slice(-2);
+            let day = ('0' + date.getDate()).slice(-2);
+            return `${year}-${month}-${day}`;
+        },
         insertInfo() {
             // 1) 유효성 체크
             if(!this.validation()) return; // 논리부정연산자 -> 원래값을 반대로 부정
@@ -90,12 +100,13 @@ export default {
             .then(result => {
                 // 3) 결과처리
                 console.log(result);
-                let user_no = result.data.insertId;
+                let user_no = result.data.insertId; // insertId는 AUTO_INCREMENT가 사용됐다는 가정하에 쓰임
                 if(user_no == 0) {
                     alert(`등록되지 않았습니다\n 메세지를 확인해주세요\n${result.data.message}`);
                 }else {
                     alert(`정상적으로 등록되었습니다.`);
                     this.userInfo.user_no = user_no;
+                    this.$router.push({ path : '/'});
                 }
             })
             .catch(err => console.log(err));

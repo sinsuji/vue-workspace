@@ -10,6 +10,7 @@
                     <th>ID</th>
                     <th>이름</th>
                     <th>성별</th>
+                    <th>나이</th>
                     <th>가입날짜</th>
                 </tr>
             </thead>
@@ -21,6 +22,7 @@
                     <td>{{ list.user_id }}</td>
                     <td>{{ list.user_name }}</td>
                     <td v-text="list.user_gender" />
+                    <td>{{ list.user_age }}</td>
                     <td>{{ list.join_date }}</td>
                 </tr>
             </tbody>

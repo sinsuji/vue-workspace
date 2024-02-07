@@ -100,10 +100,23 @@ export default {
             this.userInfo = info;
         },
         goToUpdate(userId){
-            this.$router.push({ path : '/userUpdate', query : { "userId" : userId } });
+            // 수정폼 컨포넌트 호출
+            // this.$router.push({ path : '/userUpdate', query : { "userId" : userId } }); // query는 무조건 객체타입
+            this.$router.push({ path : '/userForm', query : { "id" : userId } }); // query는 무조건 객체타입
         },
-        deleteInfo(userId){
+        async deleteInfo(userId){
             // 서버에 해당 데이터를 삭제
+            axios
+            .delete(`/api/users/${userId}`) 
+            .then(result => {
+                if(result.data.affectedRows != 0 && result.data.changedRows == 0) {
+                    alert(`정상적으로 삭제되었습니다.`);
+                    this.$router.push({ path : '/'});
+                }else {
+                    alert(`삭제되지 않았습니다\n 메세지를 확인해주세요\n${result.data.message}`);
+                }
+            })
+
             console.log(userId);
         }
     }
